@@ -17,7 +17,6 @@ import software.constructs.Construct;
 
 public final class QuarkusLambda extends Construct {
 
-    static String lambdaHandler = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest";
     static int memory = 1024; // ~0.5 vCPU
     static int timeout = 10;
     static Map<String,String> RUNTIME_CONFIGURATION = Map.of(
@@ -25,11 +24,11 @@ public final class QuarkusLambda extends Construct {
 
     IFunction function;
 
-    public QuarkusLambda(Construct scope, String functionName,Map<String,String> applicationConfiguration){
-        this(scope,functionName,true,applicationConfiguration);
+    public QuarkusLambda(Construct scope, String functionName,String lambdaHandler,Map<String,String> applicationConfiguration){
+        this(scope,functionName,lambdaHandler,true,applicationConfiguration);
     }
 
-    public QuarkusLambda(Construct scope, String functionName, boolean snapStart,Map<String,String> applicationConfiguration) {
+    public QuarkusLambda(Construct scope, String functionName,String lambdaHandler, boolean snapStart,Map<String,String> applicationConfiguration) {
         super(scope, "QuarkusLambda");
         var configuration = mergeWithRuntimeConfiguration(applicationConfiguration);
         this.function = createFunction(functionName, lambdaHandler, configuration, memory, timeout,snapStart);

@@ -1,8 +1,10 @@
-# Slightly Streamlined AWS Cloud Development Kit (CDK) Boilerplate
+# Deployment for AWS Lambda with AWS Cloud Development Kit (CDK) Boilerplate
 
-This is a blank, slightly streamlined, project for Java development with CDK.
+This is a blank CDK-only project for AWS Lambda "function URL" deployment.
+The archive `function.zip` has to already exist. 
 
-You will find the maven command in `cdk.json` file.
+The template [https://github.com/AdamBien/aws-quarkus-lambda-cdk-plain](aws-quarkus-lambda-cdk-plain) 
+builds and packages a Quarkus-based AWS Lambda and provides additional options as: ALB, Http API and REST API. 
 
 It is a [Maven](https://maven.apache.org/) based project, so you can open this project with any Maven compatible Java IDE to build and run tests.
 
