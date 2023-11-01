@@ -23,6 +23,8 @@ public class FunctionURLStack extends Stack {
         String functionHandler = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest";;
         Map<String, String> configuration = Map.of();
         String functionZipLocation;
+        final int ONE_CPU = 1700;
+        int ram = ONE_CPU;
 
         public Builder(Construct construct, String stackNamePrefix) {
             this.construct = construct;
@@ -38,6 +40,27 @@ public class FunctionURLStack extends Stack {
             this.functionHandler = handler;
             return this;
         }
+
+        public Builder ram(int ram) {
+            this.ram = ram;
+            return this;
+        }
+
+        public Builder withOneCPU(){
+            this.ram = ONE_CPU;
+            return this;
+        }
+
+        public Builder withHalfCPU(){
+            this.ram = ONE_CPU / 2;
+            return this;
+        }
+
+        public Builder withTwoCPUs(){
+            this.ram = ONE_CPU * 2;
+            return this;
+        }
+
 
         /**
          * 
