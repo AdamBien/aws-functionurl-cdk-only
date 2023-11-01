@@ -17,21 +17,16 @@ import software.constructs.Construct;
 
 public final class QuarkusLambda extends Construct {
 
-    static int memory = 1024; // ~0.5 vCPU
     static int timeout = 10;
     static Map<String,String> RUNTIME_CONFIGURATION = Map.of(
             "JAVA_TOOL_OPTIONS", "-XX:+TieredCompilation -XX:TieredStopAtLevel=1");
 
     IFunction function;
 
-    public QuarkusLambda(Construct scope, String functionZip,String functionName,String lambdaHandler,Map<String,String> applicationConfiguration){
-        this(scope,functionZip,functionName,lambdaHandler,true,applicationConfiguration);
-    }
-
-    public QuarkusLambda(Construct scope, String functionZip,String functionName,String lambdaHandler, boolean snapStart,Map<String,String> applicationConfiguration) {
+    public QuarkusLambda(Construct scope, String functionZip,String functionName,String lambdaHandler, int ramInMb,boolean snapStart,Map<String,String> applicationConfiguration) {
         super(scope, "QuarkusLambda");
         var configuration = mergeWithRuntimeConfiguration(applicationConfiguration);
-        this.function = createFunction(functionZip,functionName, lambdaHandler, configuration, memory, timeout,snapStart);
+        this.function = createFunction(functionZip,functionName, lambdaHandler, configuration, ramInMb, timeout,snapStart);
         if (snapStart){ 
             var version = setupSnapStart(this.function);
             this.function = createAlias(version);
