@@ -72,6 +72,11 @@ public class FunctionURLStack extends Stack {
             return this;
         }
 
+        public Builder quarkusLambdaProjectLocation(String location) {
+            this.functionZipLocation = location + "/target/function.zip";
+            return this;
+        }
+
         public Builder snapStart(boolean snapStart) {
             this.snapStart = snapStart;
             return this;
