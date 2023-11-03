@@ -1,6 +1,7 @@
 package airhacks.functionurl.boundary;
 
 import java.net.http.HttpClient;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
@@ -46,21 +47,20 @@ public class FunctionURLStack extends Stack {
             return this;
         }
 
-        public Builder withOneCPU(){
+        public Builder withOneCPU() {
             this.ram = ONE_CPU;
             return this;
         }
 
-        public Builder withHalfCPU(){
+        public Builder withHalfCPU() {
             this.ram = ONE_CPU / 2;
             return this;
         }
 
-        public Builder withTwoCPUs(){
+        public Builder withTwoCPUs() {
             this.ram = ONE_CPU * 2;
             return this;
         }
-
 
         /**
          * 
@@ -68,6 +68,7 @@ public class FunctionURLStack extends Stack {
          * @return
          */
         public Builder functionZip(String location) {
+            verifyFunctionZip(location);
             this.functionZipLocation = location;
             return this;
         }
@@ -92,11 +93,23 @@ public class FunctionURLStack extends Stack {
             return new FunctionURLStack(this);
         }
 
+        static boolean verifyFunctionZip(String functionZipFile) {
+            if (!functionZipFile.endsWith("function.zip")) {
+                throw new IllegalArgumentException("File must end with function.zip, but was: " + functionZipFile);
+            }
+            var exists = Files.exists(Path.of(functionZipFile));
+            if (!exists) {
+                throw new IllegalArgumentException("function.zip not found at: " + functionZipFile);
+            }
+            return true;
+        }
+
     }
 
     public FunctionURLStack(Builder builder) {
         super(builder.construct, builder.stackId);
-        var quarkusLambda = new QuarkusLambda(this, builder.functionZipLocation, builder.functionName, builder.functionHandler, builder.ram,builder.snapStart,
+        var quarkusLambda = new QuarkusLambda(this, builder.functionZipLocation, builder.functionName,
+                builder.functionHandler, builder.ram, builder.snapStart,
                 builder.configuration);
         var function = quarkusLambda.getFunction();
         var functionURL = FunctionURL.expose(function);
