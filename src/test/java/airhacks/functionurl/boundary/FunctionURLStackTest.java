@@ -21,7 +21,7 @@ public class FunctionURLStackTest {
     @Test
     void functionURLSynth() throws IOException {
         App app = new App();
-        var stack = new FunctionURLStack.Builder(app, "test")
+        var stack = new StackBuilder(app, "test")
                 .functionName("test")
                 .build();
 
@@ -40,13 +40,13 @@ public class FunctionURLStackTest {
         var existingFile = Files.createFile(functionZip);
         System.out.println("existingFile = " + existingFile);
 
-        var exception = assertThrows(IllegalArgumentException.class,() -> FunctionURLStack.Builder.verifyFunctionZip("notFunction.zip"));
+        var exception = assertThrows(IllegalArgumentException.class,() -> StackBuilder.verifyFunctionZip("notFunction.zip"));
         assertThat(exception.getMessage()).contains("notFunction.zip");
 
-        exception = assertThrows(IllegalArgumentException.class,() -> FunctionURLStack.Builder.verifyFunctionZip("/hello/function.zip"));
+        exception = assertThrows(IllegalArgumentException.class,() -> StackBuilder.verifyFunctionZip("/hello/function.zip"));
         assertThat(exception.getMessage()).contains("function.zip not found at:");
 
-        assertTrue(FunctionURLStack.Builder.verifyFunctionZip(existingFile.toString()));
+        assertTrue(StackBuilder.verifyFunctionZip(existingFile.toString()));
     }
 
 }

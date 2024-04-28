@@ -1,6 +1,6 @@
 package airhacks;
 
-import airhacks.functionurl.boundary.FunctionURLStack;
+import airhacks.functionurl.boundary.StackBuilder;
 import software.amazon.awscdk.App;
 
 public interface CDKApp {
@@ -10,7 +10,7 @@ public interface CDKApp {
         var app = new App();
         var appName = "functionurl-lambda";
 
-        new FunctionURLStack.Builder(app, appName)
+        new StackBuilder(app, appName)
                 .functionName("airhacks_FunctionURL")
                 .functionZip("../[LAMBDA_PROJECT]/target/function.zip")
                 .build();
