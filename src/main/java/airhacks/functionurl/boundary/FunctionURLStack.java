@@ -1,6 +1,5 @@
 package airhacks.functionurl.boundary;
 
-import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;

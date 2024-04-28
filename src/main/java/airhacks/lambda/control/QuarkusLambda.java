@@ -18,13 +18,17 @@ public final class QuarkusLambda extends Construct {
             "JAVA_TOOL_OPTIONS", "-XX:+TieredCompilation -XX:TieredStopAtLevel=1");
 
     IFunction function;
+    Map<String, String> configuration;
 
     public QuarkusLambda(Construct scope, String functionZip,String functionName,String lambdaHandler, int ramInMb,Map<String,String> applicationConfiguration) {
         super(scope, "QuarkusLambda");
-        var configuration = mergeWithRuntimeConfiguration(applicationConfiguration);
+        this.configuration = mergeWithRuntimeConfiguration(applicationConfiguration);
         this.function = createFunction(functionZip,functionName, lambdaHandler, configuration, ramInMb, timeout);
     }
 
+    public void addToConfiguration(String key,String value){
+        this.configuration.put(key, value);
+    }
 
 
     IFunction createFunction(String functionZip,String functionName, String functionHandler, Map<String, String> configuration, int memory,
