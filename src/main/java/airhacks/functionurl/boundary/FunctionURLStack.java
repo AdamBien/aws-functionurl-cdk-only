@@ -19,7 +19,6 @@ public class FunctionURLStack extends Stack {
 
         Construct construct;
         String stackId;
-        boolean snapStart = false;
         String functionName;
         String functionHandler = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest";;
         Map<String, String> configuration = Map.of();
@@ -78,11 +77,6 @@ public class FunctionURLStack extends Stack {
             return this;
         }
 
-        public Builder snapStart(boolean snapStart) {
-            this.snapStart = snapStart;
-            return this;
-        }
-
         public Builder configuration(Map<String, String> configuration) {
             this.configuration = configuration;
             return this;
@@ -109,7 +103,7 @@ public class FunctionURLStack extends Stack {
     public FunctionURLStack(Builder builder) {
         super(builder.construct, builder.stackId);
         var quarkusLambda = new QuarkusLambda(this, builder.functionZipLocation, builder.functionName,
-                builder.functionHandler, builder.ram, builder.snapStart,
+                builder.functionHandler, builder.ram,
                 builder.configuration);
         var function = quarkusLambda.getFunction();
         var functionURL = FunctionURL.expose(function);
