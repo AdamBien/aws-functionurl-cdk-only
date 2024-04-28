@@ -17,13 +17,19 @@ public final class QuarkusLambda extends Construct {
     static Map<String,String> RUNTIME_CONFIGURATION = Map.of(
             "JAVA_TOOL_OPTIONS", "-XX:+TieredCompilation -XX:TieredStopAtLevel=1");
 
-    IFunction function;
     Map<String, String> configuration;
+    String functionZip;
+    String functionName;
+    String lambdaHandler;
+    int ramInMb;
 
     public QuarkusLambda(Construct scope, String functionZip,String functionName,String lambdaHandler, int ramInMb,Map<String,String> applicationConfiguration) {
         super(scope, "QuarkusLambda");
+        this.functionZip = functionZip;
+        this.functionName = functionName;
+        this.lambdaHandler = lambdaHandler;
+        this.ramInMb = ramInMb;
         this.configuration = mergeWithRuntimeConfiguration(applicationConfiguration);
-        this.function = createFunction(functionZip,functionName, lambdaHandler, configuration, ramInMb, timeout);
     }
 
     public void addToConfiguration(String key,String value){
@@ -52,6 +58,6 @@ public final class QuarkusLambda extends Construct {
     }
 
     public IFunction getFunction() {
-        return this.function;
+        return createFunction(this.functionZip,this.functionName, this.lambdaHandler, this.configuration, this.ramInMb, timeout);
     }
 }
