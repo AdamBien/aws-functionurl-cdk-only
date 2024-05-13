@@ -57,7 +57,7 @@ public final class QuarkusLambda extends Construct {
         return configuration;
     }
 
-    public IFunction getFunction() {
+    public IFunction create() {
         return createFunction(this.functionZip,this.functionName, this.lambdaHandler, this.configuration, this.ramInMb, timeout);
     }
 }
