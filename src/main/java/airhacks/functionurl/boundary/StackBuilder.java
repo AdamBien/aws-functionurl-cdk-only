@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 
+import software.amazon.awscdk.App;
 import software.constructs.Construct;
 
 public class StackBuilder {
@@ -19,7 +20,10 @@ public class StackBuilder {
 
     public StackBuilder(Construct construct, String stackNamePrefix) {
         this.construct = construct;
-        this.stackId = stackNamePrefix.toLowerCase() + "-function-url-stack";
+        this.stackId = stackNamePrefix.toLowerCase() + "-function-url";
+    }
+    public StackBuilder(String stackNamePrefix) {
+        this(new App(),stackNamePrefix);
     }
 
     public StackBuilder functionName(String functionName) {
