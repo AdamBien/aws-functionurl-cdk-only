@@ -8,7 +8,7 @@ public interface CDKApp {
     static void main(String... args) {
 
         var app = new App();
-        var appName = "functionurl-lambda";
+        var appName = "hello-lambda";
 
         new StackBuilder(app, appName)
                 .functionName("airhacks_FunctionURL")
