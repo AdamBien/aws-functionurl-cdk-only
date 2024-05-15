@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import software.amazon.awscdk.App;
 
-public class StackBuilder {
+public class ServerlessApp {
     App app;
     String stackId;
     String functionName;
@@ -17,40 +17,40 @@ public class StackBuilder {
     final int ONE_CPU = 1700;
     int ram = ONE_CPU;
 
-    public StackBuilder(App construct, String stackNamePrefix) {
+    public ServerlessApp(App construct, String stackNamePrefix) {
         this.app = construct;
         this.stackId = stackNamePrefix.toLowerCase() + "-function-url";
     }
-    public StackBuilder(String stackNamePrefix) {
+    public ServerlessApp(String stackNamePrefix) {
         this(new App(),stackNamePrefix);
     }
 
-    public StackBuilder functionName(String functionName) {
+    public ServerlessApp functionName(String functionName) {
         this.functionName = functionName;
         return this;
     }
 
-    public StackBuilder functionHandler(String handler) {
+    public ServerlessApp functionHandler(String handler) {
         this.functionHandler = handler;
         return this;
     }
 
-    public StackBuilder ram(int ram) {
+    public ServerlessApp ram(int ram) {
         this.ram = ram;
         return this;
     }
 
-    public StackBuilder withOneCPU() {
+    public ServerlessApp withOneCPU() {
         this.ram = ONE_CPU;
         return this;
     }
 
-    public StackBuilder withHalfCPU() {
+    public ServerlessApp withHalfCPU() {
         this.ram = ONE_CPU / 2;
         return this;
     }
 
-    public StackBuilder withTwoCPUs() {
+    public ServerlessApp withTwoCPUs() {
         this.ram = ONE_CPU * 2;
         return this;
     }
@@ -60,18 +60,18 @@ public class StackBuilder {
      * @param location the full path to the function.zip archive.
      * @return
      */
-    public StackBuilder functionZip(String location) {
+    public ServerlessApp functionZip(String location) {
         verifyFunctionZip(location);
         this.functionZipLocation = location;
         return this;
     }
 
-    public StackBuilder quarkusLambdaProjectLocation(String location) {
+    public ServerlessApp quarkusLambdaProjectLocation(String location) {
         this.functionZipLocation = location + "/target/function.zip";
         return this;
     }
 
-    public StackBuilder configuration(Map<String, String> configuration) {
+    public ServerlessApp configuration(Map<String, String> configuration) {
         this.configuration = configuration;
         return this;
     }

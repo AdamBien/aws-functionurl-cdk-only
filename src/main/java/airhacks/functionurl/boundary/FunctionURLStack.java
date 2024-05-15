@@ -9,7 +9,7 @@ import software.amazon.awscdk.Tags;
 public class FunctionURLStack extends Stack {
 
 
-    public FunctionURLStack(StackBuilder builder) {
+    public FunctionURLStack(ServerlessApp builder) {
         super(builder.app, builder.stackId);
         var quarkusLambda = new QuarkusLambda(this, builder.functionZipLocation, builder.functionName,
                 builder.functionHandler, builder.ram,
