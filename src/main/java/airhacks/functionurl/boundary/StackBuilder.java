@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import software.amazon.awscdk.App;
-import software.constructs.Construct;
 
 public class StackBuilder {
-    Construct construct;
+    App app;
     String stackId;
     String functionName;
     String functionHandler = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest";;
@@ -18,8 +17,8 @@ public class StackBuilder {
     final int ONE_CPU = 1700;
     int ram = ONE_CPU;
 
-    public StackBuilder(Construct construct, String stackNamePrefix) {
-        this.construct = construct;
+    public StackBuilder(App construct, String stackNamePrefix) {
+        this.app = construct;
         this.stackId = stackNamePrefix.toLowerCase() + "-function-url";
     }
     public StackBuilder(String stackNamePrefix) {
@@ -79,7 +78,9 @@ public class StackBuilder {
 
     public FunctionURLStack build() {
         Objects.requireNonNull(this.functionName, "Function name is required");
-        return new FunctionURLStack(this);
+        var stack = new FunctionURLStack(this);
+        this.app.synth();
+        return stack;
     }
 
     static boolean verifyFunctionZip(String functionZipFile) {

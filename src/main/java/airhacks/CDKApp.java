@@ -7,11 +7,9 @@ public interface CDKApp {
 
     static void main(String... args) {
 
-        var app = new App();
-        new StackBuilder(app,"hello-lambda")
+        new StackBuilder("hello-lambda")
                 .functionName("airhacks_FunctionURL")
                 .functionZip("../[LAMBDA_PROJECT]/target/function.zip")
                 .build();
-        app.synth();
     }
 }
