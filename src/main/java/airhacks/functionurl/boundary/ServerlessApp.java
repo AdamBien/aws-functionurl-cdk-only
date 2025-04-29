@@ -9,6 +9,7 @@ import software.amazon.awscdk.App;
 
 public class ServerlessApp {
     App app;
+    String accountId;
     String stackId;
     String functionName;
     String functionHandler = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest";;
@@ -32,6 +33,11 @@ public class ServerlessApp {
 
     public ServerlessApp functionHandler(String handler) {
         this.functionHandler = handler;
+        return this;
+    }
+
+    public ServerlessApp accountId(String accountId){
+        this.accountId = accountId;
         return this;
     }
 
