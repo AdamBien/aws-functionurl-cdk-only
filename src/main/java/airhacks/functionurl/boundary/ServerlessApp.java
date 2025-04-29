@@ -4,12 +4,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import software.amazon.awscdk.App;
+import software.amazon.awscdk.Environment;
+import software.amazon.awscdk.StackProps;
 
 public class ServerlessApp {
+    String region = "eu-central-1";
     App app;
-    String accountId;
+    Optional<String> accountId;
     String stackId;
     String functionName;
     String functionHandler = "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest";;
@@ -21,9 +25,11 @@ public class ServerlessApp {
     public ServerlessApp(App construct, String stackNamePrefix) {
         this.app = construct;
         this.stackId = stackNamePrefix.toLowerCase() + "-function-url";
+        this.accountId = Optional.empty();
     }
+
     public ServerlessApp(String stackNamePrefix) {
-        this(new App(),stackNamePrefix);
+        this(new App(), stackNamePrefix);
     }
 
     public ServerlessApp functionName(String functionName) {
@@ -36,8 +42,8 @@ public class ServerlessApp {
         return this;
     }
 
-    public ServerlessApp accountId(String accountId){
-        this.accountId = accountId;
+    public ServerlessApp accountId(String accountId) {
+        this.accountId = Optional.of(accountId);
         return this;
     }
 
@@ -87,6 +93,15 @@ public class ServerlessApp {
         var stack = new FunctionURLStack(this);
         this.app.synth();
         return stack;
+    }
+
+    public StackProps stackProps() {
+        var env = Environment.builder()
+                .region(region);
+        accountId.ifPresent(env::region);
+        return StackProps.builder()
+                .env(env.build())
+                .build();
     }
 
     static boolean verifyFunctionZip(String functionZipFile) {

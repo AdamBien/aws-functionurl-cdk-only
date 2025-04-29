@@ -10,7 +10,7 @@ public class FunctionURLStack extends Stack {
 
 
     public FunctionURLStack(ServerlessApp builder) {
-        super(builder.app, builder.stackId);
+        super(builder.app, builder.stackId,builder.stackProps());
         var quarkusLambda = new QuarkusLambda(this, builder.functionZipLocation, builder.functionName,
                 builder.functionHandler, builder.ram,
                 builder.configuration);
